@@ -1,5 +1,5 @@
 # Animation-assembly
-Small code in assembly calculating the animation of small squares
+Small code in assembly and c calculating the animation of small squares
 
 
 ## Demo
