@@ -10,7 +10,7 @@
 	x_coordinate : .quad 0
 	y_coordinate : .quad 0
 
-	out: .quad 0
+	temp: .quad 0
 	
 
 _start:				# main label
@@ -21,8 +21,10 @@ _start:				# main label
 
 draw:
 
-    mov  $10 , %rdi # delay a little bit before drawing next square
+    mov  $1 , %rdi # delay a little bit before drawing next square
     call  SDL_Delay
+
+	call clear_screen
 
 	mov	x_coordinate, %rdi	# arg 1: x coordinate
 	mov	y_coordinate, %rsi	# arg 2: y coordinate
@@ -31,13 +33,27 @@ draw:
 	mov x_coordinate , %eax
 	mov y_coordinate , %edx
 
-	cmp sw , %eax
+	sub $25 , %edx
+
+	mov %eax , temp
+	mov temp , %rdi
+
+	mov %edx , temp
+	mov temp , %rsi
+	call 	g_draw_boxes
+
+	call update_screen
+
+
+	mov x_coordinate , %eax
+	mov y_coordinate , %edx
+
+	cmp sh , %edx
 	jl  increment
 	jg  reload
 
 increment:
 
-	inc %eax
 	inc %edx
 
 	mov %eax , x_coordinate
@@ -49,18 +65,14 @@ reload:
 
 	# put the the square back to inititial position
 
-	mov $0 , %eax 
-	mov $0 , %edx 
+	add $20 , %eax # move to the right
+	mov $0  , %edx 
 
 	mov %eax , x_coordinate
 	mov %edx , y_coordinate
 
-	mov out , %eax
-	inc %eax
-	cmp $2 , %eax # make the animation twice
-	je exit
-	mov %eax , out    
-	
+	cmp sw , %eax # make the animation twice
+	je exit 
 	jmp draw
 
 exit:				

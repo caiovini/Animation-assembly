@@ -38,18 +38,8 @@ void g_init(int iw, int ih){
   printf("init graphics\n");
 }
 
-void print_d(int x){
-
-    if(x != 0)
-
-    printf("value %d" , x);
-}
 
 void g_draw_boxes(int x , int y){
-
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-
-    SDL_RenderClear(renderer);
 
     SDL_Rect rect, darea;
 
@@ -58,33 +48,23 @@ void g_draw_boxes(int x , int y){
 
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
-    rect.w = darea.w/64;
-    rect.h = darea.h/64;
+    rect.w = darea.w/32;
+    rect.h = darea.h/32;
     rect.x = x;
     rect.y = y;
     SDL_RenderFillRect(renderer, &rect);
+ 
+}
 
-    rect.y = y - 25;
+void update_screen(){
 
-    SDL_RenderFillRect(renderer, &rect);
-
-    rect.x = x - 12;
-    rect.y = y - 12;
-
-    SDL_RenderFillRect(renderer, &rect);
-
-    rect.x = x + 12;
-
-    SDL_RenderFillRect(renderer, &rect);
-
-    rect.x = x + 12;
-    rect.y = y - 12;
-
-    SDL_RenderFillRect(renderer, &rect);
-
-    
-        
     SDL_UpdateWindowSurface(window);
     SDL_RenderPresent(renderer);
- 
+}
+
+void clear_screen(){
+
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+    SDL_RenderClear(renderer);
+
 }
